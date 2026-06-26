@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #08090b;
+  color: #f4f4f5;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.05);
+  padding: 0.7rem 0.8rem;
+  color: #f4f4f5;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #b6ff4d;
+  box-shadow: 0 0 0 3px rgb(182 255 77 / 0.12);
+}
+
+.btn-primary {
+  border-radius: 0.5rem;
+  background: #b6ff4d;
+  color: #08090b;
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.07);
+  color: #f4f4f5;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+}
