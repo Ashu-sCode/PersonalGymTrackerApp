@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { useAppData } from "./hooks/useAppData";
@@ -9,9 +9,10 @@ import { History } from "./pages/History";
 import { Landing } from "./pages/Landing";
 import { Login } from "./pages/Login";
 import { Measurements } from "./pages/Measurements";
-import { MuscleMapPage } from "./pages/MuscleMapPage";
 import { Reminders } from "./pages/Reminders";
 import { Settings } from "./pages/Settings";
+
+const MuscleMapPage = lazy(() => import("./pages/MuscleMapPage").then((module) => ({ default: module.MuscleMapPage })));
 
 export function App() {
   const appData = useAppData();
@@ -32,7 +33,14 @@ export function App() {
         <Route path="/dashboard" element={<Dashboard data={appData} />} />
         <Route path="/add-workout" element={<AddWorkout data={appData} />} />
         <Route path="/history" element={<History data={appData} />} />
-        <Route path="/muscle-map" element={<MuscleMapPage data={appData} />} />
+        <Route
+          path="/muscle-map"
+          element={
+            <Suspense fallback={<div className="rounded-lg border border-white/10 bg-white/[0.035] p-6 text-zinc-300">Loading muscle map...</div>}>
+              <MuscleMapPage data={appData} />
+            </Suspense>
+          }
+        />
         <Route path="/measurements" element={<Measurements data={appData} />} />
         <Route path="/reminders" element={<Reminders data={appData} />} />
         <Route path="/export" element={<ExportReport data={appData} />} />
