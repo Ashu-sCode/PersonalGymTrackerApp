@@ -94,9 +94,9 @@ function BodyFigure({
   const viewBox = muscleViewBoxes[model][side];
 
   return (
-    <div className="relative min-h-0 overflow-hidden rounded-[18px] border border-white/[0.06] bg-[radial-gradient(circle_at_50%_10%,rgba(57,231,95,0.13),transparent_32%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.07),transparent_50%),linear-gradient(180deg,#151922,#0F131A)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
-      <div className="mb-2 text-center text-[10px] font-medium uppercase tracking-[0.34em] text-zinc-500">{side}</div>
-      <svg viewBox={viewBox} className="h-[clamp(360px,62vw,560px)] w-full max-w-full drop-shadow-[0_18px_26px_rgba(0,0,0,0.24)]" role="img" aria-label={`${model} ${side} muscle map`}>
+    <div className="relative min-h-0 overflow-hidden rounded-[18px] border border-white/[0.06] bg-[radial-gradient(circle_at_50%_10%,rgba(57,231,95,0.13),transparent_32%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.07),transparent_50%),linear-gradient(180deg,#151922,#0F131A)] p-2.5 shadow-[0_8px_30px_rgba(0,0,0,.35)] sm:p-3">
+      <div className="mb-1 text-center text-[9px] font-bold uppercase tracking-[0.32em] text-zinc-500 sm:mb-2 sm:text-[10px]">{side}</div>
+      <svg viewBox={viewBox} className="h-[clamp(300px,52dvh,520px)] w-full max-w-full drop-shadow-[0_18px_26px_rgba(0,0,0,0.24)] lg:h-[clamp(380px,54vw,560px)]" role="img" aria-label={`${model} ${side} muscle map`}>
         <defs>
           <radialGradient id={`ambient-${side}`} cx="50%" cy="12%" r="72%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
@@ -183,8 +183,8 @@ export function MuscleMap2D({ selectedMuscle, recoveryScores, onMuscleClick, sho
   );
 
   return (
-    <div className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
-      <div className="-mx-3 flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:snap-none lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">
+    <div className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-2.5 shadow-[0_8px_30px_rgba(0,0,0,.35)] sm:p-3">
+      <div className="-mx-2.5 flex touch-pan-x snap-x snap-mandatory gap-2.5 overflow-x-auto overscroll-x-contain px-2.5 pb-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-3 sm:gap-3 sm:px-3 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">
         <div className="min-w-full snap-center lg:min-w-0">
           <BodyFigure
             side="front"
@@ -215,10 +215,10 @@ export function MuscleMap2D({ selectedMuscle, recoveryScores, onMuscleClick, sho
         <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-zinc-400">
+      <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] text-zinc-400 sm:gap-2 sm:text-[11px]">
         {!selectedMuscle ? <span className="mr-auto self-center text-sm text-zinc-500">Select a muscle to view recovery details</span> : null}
         {visibleLegend.map(([level, label]) => (
-          <span key={level} className="inline-flex items-center gap-1.5 rounded bg-white/[0.04] px-2 py-1">
+          <span key={level} className="inline-flex items-center gap-1.5 rounded bg-white/[0.04] px-1.5 py-1 sm:px-2">
             <span
               className="h-2.5 w-2.5 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.08)]"
               style={{ background: `linear-gradient(180deg, ${recoveryGradients[level].top}, ${recoveryGradients[level].bottom})` }}

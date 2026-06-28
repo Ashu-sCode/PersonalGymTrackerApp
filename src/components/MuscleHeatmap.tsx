@@ -2,11 +2,9 @@ import { useMemo, useState } from "react";
 import { CalendarClock, ScanSearch, X } from "lucide-react";
 import { MuscleMap2D } from "./muscle-map/MuscleMap2D";
 import { recoveryGradients, recoveryLevel } from "./muscle-map/muscleColor";
-import { muscleGroups, muscleLabels } from "./muscle-map/musclePaths";
-import type { MuscleGroup, MuscleScore } from "../types";
+import { muscleLabels } from "./muscle-map/musclePaths";
+import type { MuscleScore } from "../types";
 import type { MuscleMapRecoveryScores, MusclePathId } from "./muscle-map/muscleTypes";
-
-const groupOrder: MuscleGroup[] = ["Chest", "Back", "Shoulders", "Arms", "Core", "Legs", "Calves"];
 
 const scoreAliases: Partial<Record<MusclePathId, string[]>> = {
   abs: ["core"],
@@ -62,14 +60,6 @@ function combinedScore(pathId: MusclePathId, scores: MuscleScore[]) {
         ? "Almost Ready"
         : "Ready";
   return { ...matching[0], volumeScore, frequencyScore, recoveryPenalty, finalScore, recoveryStatus, lastTrainedAt, groupName: matching[0].groupName };
-}
-
-function groupSummary(group: MuscleGroup, scores: MuscleScore[]) {
-  const items = scores.filter((score) => score.groupName === group);
-  return {
-    group,
-    score: items.reduce((total, item) => total + item.finalScore, 0)
-  };
 }
 
 function formatScore(value?: number) {
@@ -133,9 +123,9 @@ function frequencyText(score?: MuscleScore) {
 
 function SelectedMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[18px] border border-white/[0.06] bg-[#11161F]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,.22)]">
+    <div className="rounded-[14px] bg-white/[0.035] px-3 py-2.5 sm:px-4 sm:py-3">
       <p className="text-[11px] font-black uppercase tracking-[0.24em] text-zinc-500">{label}</p>
-      <p className="mt-2 text-xl font-black leading-tight text-white sm:text-2xl">{value}</p>
+      <p className="mt-1.5 text-lg font-black leading-tight text-white sm:mt-2 sm:text-2xl">{value}</p>
     </div>
   );
 }
@@ -152,25 +142,19 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
 
   const selectedScore = selectedMuscle ? combinedScore(selectedMuscle, scores) : undefined;
   const selectedRecovery = recoveryLevel(selectedScore);
-  const summaries = groupOrder.map((group) => groupSummary(group, scores));
-  const selectableMuscles = (Object.keys(muscleLabels) as MusclePathId[]).filter((id) => muscleGroups[id] !== "Neutral" && id !== "hair" && id !== "head");
 
   return (
-    <div className="grid items-start gap-5 xl:grid-cols-[minmax(520px,1fr)_360px]">
+    <div className="grid items-start gap-3 sm:gap-4 xl:grid-cols-[minmax(520px,1fr)_360px]">
       <MuscleMap2D selectedMuscle={selectedMuscle} recoveryScores={recoveryScores} onMuscleClick={setSelectedMuscle} showLabels={false} model="male" />
 
       <div
         className={
           selectedMuscle
-            ? "fixed inset-x-3 bottom-3 z-50 max-h-[72dvh] overflow-y-auto rounded-[2rem] border border-white/[0.06] bg-transparent p-0 shadow-2xl shadow-black/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:relative xl:inset-auto xl:max-h-none xl:overflow-visible xl:rounded-[18px] xl:bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] xl:p-4 xl:shadow-[0_8px_30px_rgba(0,0,0,.35)]"
+            ? "fixed inset-x-3 bottom-3 z-50 max-h-[68dvh] overflow-y-auto rounded-[2rem] border border-white/[0.06] bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,#151922,#0F131A)] p-3 shadow-2xl shadow-black/50 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-4 xl:relative xl:inset-auto xl:max-h-none xl:overflow-visible xl:rounded-[18px] xl:shadow-[0_8px_30px_rgba(0,0,0,.35)]"
             : "hidden rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-4 shadow-[0_8px_30px_rgba(0,0,0,.35)] xl:block"
         }
       >
-        <div
-          className={`overflow-hidden border border-white/[0.06] bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,#151922,#0F131A)] p-4 shadow-2xl shadow-black/35 backdrop-blur-xl ${
-            selectedMuscle ? "mb-0 rounded-[2rem] xl:mb-4 xl:rounded-xl" : "mb-4 rounded-xl"
-          }`}
-        >
+        <div className="overflow-hidden">
           {selectedMuscle ? <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/35 md:hidden" /> : null}
           <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-zinc-500">
             <ScanSearch className="h-4 w-4" />
@@ -197,7 +181,7 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                 </button>
               </div>
 
-              <div className="mt-5 h-2 overflow-hidden rounded-full bg-[#596172]/70">
+              <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#596172]/70">
                 <div
                   className="h-full rounded-full transition-[width,background] duration-300"
                   style={{
@@ -207,24 +191,24 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                 />
               </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
                 <SelectedMetric label="Ready for" value={readyFor(selectedScore)} />
                 <SelectedMetric label="Full recovery" value={fullRecovery(selectedScore)} />
               </div>
 
-              <div className="mt-7">
+              <div className="mt-5 sm:mt-7">
                 <p className="text-xs font-black uppercase tracking-[0.28em] text-zinc-500">History</p>
-                <div className="mt-3 grid grid-cols-2 gap-3">
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:mt-3 sm:gap-3">
                   <SelectedMetric label="Last trained" value={formatLastTrained(selectedScore?.lastTrainedAt)} />
                   <SelectedMetric label="Frequency" value={frequencyText(selectedScore)} />
                 </div>
               </div>
 
-              <div className="mt-3 rounded-[18px] border border-white/[0.06] bg-[#11161F]/90 p-4 shadow-[0_8px_30px_rgba(0,0,0,.22)]">
+              <div className="mt-3 rounded-[16px] bg-white/[0.035] p-3 sm:p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-[11px] font-black uppercase tracking-[0.24em] text-zinc-500">Volume this week</p>
-                    <p className="mt-2 text-4xl font-black leading-none tracking-tight text-white">{formatScore(selectedScore?.volumeScore)}</p>
+                    <p className="mt-2 text-3xl font-black leading-none tracking-tight text-white sm:text-4xl">{formatScore(selectedScore?.volumeScore)}</p>
                     <p className="mt-2 text-sm text-zinc-500">score load</p>
                   </div>
                   <div className="text-right">
@@ -239,53 +223,12 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
               </div>
             </div>
           ) : (
-            <div className="mt-4 rounded-[18px] border border-white/[0.06] bg-[#11161F] px-3 py-5 text-center">
+            <div className="mt-4 rounded-[16px] bg-white/[0.035] px-3 py-5 text-center">
               <CalendarClock className="mx-auto h-6 w-6 text-zinc-600" />
               <p className="mt-2 text-sm font-semibold text-zinc-300">Select a muscle to view recovery details</p>
               <p className="mt-1 text-xs leading-5 text-zinc-500">You will see readiness, weekly load, frequency, and recovery status here.</p>
             </div>
           )}
-        </div>
-
-        <div className="mb-5 hidden grid-cols-2 gap-2 xl:grid">
-          {summaries.map((summary) => (
-            <button
-              key={summary.group}
-              type="button"
-              onClick={() => {
-                const first = selectableMuscles.find((id) => muscleGroups[id] === summary.group);
-                if (first) setSelectedMuscle(first);
-              }}
-              className={`rounded-md px-3 py-2 text-left text-sm transition ${selectedMuscle && muscleGroups[selectedMuscle] === summary.group ? "bg-white text-iron-950" : "bg-white/8 text-zinc-200 hover:bg-white/12"}`}
-            >
-              <span className="block font-bold">{summary.group}</span>
-              <span className="text-xs opacity-70">{Math.round(summary.score)}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="hidden max-h-[620px] gap-2 overflow-auto pr-1 xl:grid">
-          {selectableMuscles.map((muscleId) => {
-            const active = selectedMuscle === muscleId;
-            const level = recoveryLevel(recoveryScores[muscleId]);
-            return (
-              <button
-                key={muscleId}
-                type="button"
-                title={muscleLabels[muscleId]}
-                onClick={() => setSelectedMuscle(muscleId)}
-                className={`flex min-h-11 items-center justify-between gap-3 rounded-md border px-3 py-2 text-left text-sm transition ${
-                  active ? "border-volt-500/35 bg-volt-500/10 text-white shadow-[0_0_18px_rgba(163,255,61,0.16)]" : "border-white/[0.06] bg-[#11161F] text-zinc-200 hover:bg-white/[0.06]"
-                }`}
-              >
-                <span className="font-semibold">{muscleLabels[muscleId]}</span>
-                <span
-                  className="h-2.5 w-2.5 shrink-0 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.08)]"
-                  style={{ background: `linear-gradient(180deg, ${recoveryGradients[level].top}, ${recoveryGradients[level].bottom})` }}
-                />
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>

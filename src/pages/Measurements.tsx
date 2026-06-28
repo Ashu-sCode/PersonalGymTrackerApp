@@ -43,23 +43,23 @@ export function Measurements({ data }: { data: AppData }) {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1180px] gap-5 xl:grid-cols-[400px_1fr]">
-      <section className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-4 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
+    <div className="mx-auto grid max-w-[1180px] gap-4 xl:grid-cols-[380px_1fr]">
+      <section className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)] sm:p-4">
         <p className="text-xs font-black uppercase tracking-[0.28em] text-volt-500">BODY METRICS</p>
-        <h1 className="mt-2 text-3xl font-black text-white">{editingId ? "Edit Measurement" : "Measurements"}</h1>
-        <label className="mt-5 block">
+        <h1 className="mt-1.5 text-2xl font-black text-white sm:text-3xl">{editingId ? "Edit Measurement" : "Measurements"}</h1>
+        <label className="mt-4 block">
           <span className="mb-1 block text-sm font-bold text-[#A1A8B3]">Date</span>
           <input className="input" type="date" value={date} onChange={(event) => setDate(event.target.value)} />
         </label>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-1">
           {fields.map((field) => (
             <label key={field}>
               <span className="mb-1 block text-sm font-bold capitalize text-[#A1A8B3]">{field.replace(/([A-Z])/g, " $1")} {field === "bodyWeight" ? `(${unit})` : ""}</span>
-              <input className="input" type="number" min="0" value={values[field] ?? ""} onChange={(event) => setValues((current) => ({ ...current, [field]: event.target.value }))} />
+              <input className="input min-h-11 py-2" type="number" min="0" value={values[field] ?? ""} onChange={(event) => setValues((current) => ({ ...current, [field]: event.target.value }))} />
             </label>
           ))}
         </div>
-        <div className="mt-5 flex gap-3">
+        <div className="mt-4 flex gap-2 sm:gap-3">
           {editingId ? (
             <button className="btn-secondary flex-1" onClick={() => { setEditingId(null); setValues({}); }}>
               Cancel
@@ -71,17 +71,17 @@ export function Measurements({ data }: { data: AppData }) {
         </div>
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-2.5 sm:space-y-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6D7684]">Progress log</p>
           <h2 className="mt-1 text-2xl font-black text-white">{data.measurements.length} entries</h2>
         </div>
         {data.measurements.length ? (
           data.measurements.map((measurement) => (
-            <article key={measurement.id} className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-4 shadow-[0_8px_30px_rgba(0,0,0,.35)] transition duration-200 hover:-translate-y-0.5 hover:border-volt-500/30">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <article key={measurement.id} className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)] transition duration-200 hover:-translate-y-0.5 hover:border-volt-500/30 sm:p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="grid h-11 w-11 place-items-center rounded-[14px] bg-volt-500/12 text-volt-500">
+                  <span className="grid h-10 w-10 place-items-center rounded-[14px] bg-volt-500/12 text-volt-500">
                     <Ruler size={19} />
                   </span>
                   <div>
@@ -90,18 +90,18 @@ export function Measurements({ data }: { data: AppData }) {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="btn-secondary px-3 py-2 text-sm" onClick={() => setEditingId(measurement.id)}>
+                  <button className="btn-secondary flex-1 px-3 py-2 text-sm sm:flex-none" onClick={() => setEditingId(measurement.id)}>
                     <Edit3 className="mr-2 inline" size={16} /> Edit
                   </button>
-                  <button className="rounded-[14px] border border-ember-500/15 bg-ember-500/10 px-3 py-2 text-sm font-black text-[#FF6B6B] transition hover:-translate-y-0.5 hover:bg-ember-500/15" onClick={() => remove(measurement.id)}>
+                  <button className="flex-1 rounded-[14px] border border-ember-500/15 bg-ember-500/10 px-3 py-2 text-sm font-black text-[#FF6B6B] transition hover:-translate-y-0.5 hover:bg-ember-500/15 sm:flex-none" onClick={() => remove(measurement.id)}>
                     <Trash2 className="mr-2 inline" size={16} /> Delete
                   </button>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
+              <div className="mt-3 grid grid-cols-3 gap-2 md:grid-cols-6">
                 {fields.filter((field) => field !== "bodyWeight").map((field) => (
-                  <div key={field} className="rounded-[14px] bg-[#11161F] px-3 py-2">
-                    <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#6D7684]">{field.replace(/([A-Z])/g, " $1")}</p>
+                  <div key={field} className="rounded-[14px] bg-[#11161F] px-2.5 py-2 sm:px-3">
+                    <p className="truncate text-[9px] font-black uppercase tracking-[0.1em] text-[#6D7684] sm:text-[10px]">{field.replace(/([A-Z])/g, " $1")}</p>
                     <p className="mt-1 font-black text-white">{measurement[field] ?? "-"}</p>
                   </div>
                 ))}

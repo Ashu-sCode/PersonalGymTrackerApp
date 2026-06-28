@@ -69,7 +69,7 @@ export function Layout({ pendingSync, refresh }: { pendingSync: number; refresh:
         </NavLink>
       </header>
 
-      <main className="px-4 py-5 lg:ml-72 lg:px-8">
+      <main className="px-3 py-3 sm:px-4 sm:py-4 lg:ml-72 lg:px-8 lg:py-5">
         <Outlet />
       </main>
     </div>
