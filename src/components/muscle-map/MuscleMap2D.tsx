@@ -184,27 +184,35 @@ export function MuscleMap2D({ selectedMuscle, recoveryScores, onMuscleClick, sho
 
   return (
     <div className="rounded-lg border border-white/10 bg-iron-950/40 p-3">
-      <div className="grid gap-3 lg:grid-cols-2">
-        <BodyFigure
-          side="front"
-          model={model}
-          selectedMuscle={selectedMuscle}
-          hoveredMuscle={hoveredMuscle}
-          recoveryScores={recoveryScores}
-          onHover={setHoveredMuscle}
-          onMuscleClick={onMuscleClick}
-          showLabels={showLabels}
-        />
-        <BodyFigure
-          side="back"
-          model={model}
-          selectedMuscle={selectedMuscle}
-          hoveredMuscle={hoveredMuscle}
-          recoveryScores={recoveryScores}
-          onHover={setHoveredMuscle}
-          onMuscleClick={onMuscleClick}
-          showLabels={showLabels}
-        />
+      <div className="-mx-3 flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:snap-none lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">
+        <div className="min-w-full snap-center lg:min-w-0">
+          <BodyFigure
+            side="front"
+            model={model}
+            selectedMuscle={selectedMuscle}
+            hoveredMuscle={hoveredMuscle}
+            recoveryScores={recoveryScores}
+            onHover={setHoveredMuscle}
+            onMuscleClick={onMuscleClick}
+            showLabels={showLabels}
+          />
+        </div>
+        <div className="min-w-full snap-center lg:min-w-0">
+          <BodyFigure
+            side="back"
+            model={model}
+            selectedMuscle={selectedMuscle}
+            hoveredMuscle={hoveredMuscle}
+            recoveryScores={recoveryScores}
+            onHover={setHoveredMuscle}
+            onMuscleClick={onMuscleClick}
+            showLabels={showLabels}
+          />
+        </div>
+      </div>
+      <div className="mt-1 flex justify-center gap-1.5 lg:hidden" aria-hidden="true">
+        <span className="h-1.5 w-5 rounded-full bg-lime-300/80" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/25" />
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-zinc-400">

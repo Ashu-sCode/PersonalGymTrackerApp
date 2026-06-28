@@ -16,7 +16,10 @@ export async function syncPendingItems() {
   let synced = 0;
 
   for (const item of queue) {
-    const { error } = await supabase.from(tableName[item.entity]).upsert(item.payload as Record<string, unknown>);
+    const { error } =
+      item.action === "delete"
+        ? await supabase.from(tableName[item.entity]).delete().eq("id", item.entityId)
+        : await supabase.from(tableName[item.entity]).upsert(item.payload as Record<string, unknown>);
     if (error) throw error;
     await db.syncQueue.delete(item.id);
     synced += 1;

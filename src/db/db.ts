@@ -8,6 +8,7 @@ import type {
   SyncQueueItem,
   UserProfile,
   Workout,
+  WorkoutTemplate,
   WorkoutSet
 } from "../types";
 import { exerciseMuscleMap, exercises, muscles } from "../data/seed";
@@ -19,6 +20,7 @@ class PgtDatabase extends Dexie {
   exerciseMuscleMap!: Table<ExerciseMuscleMap, string>;
   workouts!: Table<Workout, string>;
   workoutSets!: Table<WorkoutSet, string>;
+  workoutTemplates!: Table<WorkoutTemplate, string>;
   bodyMeasurements!: Table<BodyMeasurement, string>;
   reminders!: Table<Reminder, string>;
   syncQueue!: Table<SyncQueueItem, string>;
@@ -36,15 +38,18 @@ class PgtDatabase extends Dexie {
       reminders: "id, userId, enabled, time",
       syncQueue: "id, entity, entityId, createdAt"
     });
+    this.version(2).stores({
+      workoutTemplates: "id, userId, createdAt"
+    });
   }
 }
 
 export const db = new PgtDatabase();
 
 export async function seedDatabase() {
-  if ((await db.muscles.count()) === 0) await db.muscles.bulkPut(muscles);
-  if ((await db.exercises.count()) === 0) await db.exercises.bulkPut(exercises);
-  if ((await db.exerciseMuscleMap.count()) === 0) await db.exerciseMuscleMap.bulkPut(exerciseMuscleMap);
+  await db.muscles.bulkPut(muscles);
+  await db.exercises.bulkPut(exercises);
+  await db.exerciseMuscleMap.bulkPut(exerciseMuscleMap);
 }
 
 export const localUserId = "local-user";

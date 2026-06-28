@@ -79,6 +79,18 @@ export interface WorkoutDraftSet {
   weight: number;
 }
 
+export interface WorkoutTemplate {
+  id: string;
+  day: string;
+  title: string;
+  focus: string;
+  notes?: string;
+  sets: WorkoutDraftSet[];
+  userId?: string;
+  isCustom?: boolean;
+  createdAt?: string;
+}
+
 export interface BodyMeasurement {
   id: string;
   userId: string;

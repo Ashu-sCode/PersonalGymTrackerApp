@@ -26,10 +26,30 @@ textarea {
   width: 100%;
   border-radius: 0.5rem;
   border: 1px solid rgb(255 255 255 / 0.1);
-  background: rgb(255 255 255 / 0.05);
+  background-color: rgb(255 255 255 / 0.05);
   padding: 0.7rem 0.8rem;
   color: #f4f4f5;
   outline: none;
+}
+
+select.input {
+  color-scheme: dark;
+  background-color: #181b22;
+}
+
+select.input option,
+select.input optgroup {
+  background-color: #181b22;
+  color: #f4f4f5;
+}
+
+select.input option:checked {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+select.input option:disabled {
+  color: #71717a;
 }
 
 .input:focus {
