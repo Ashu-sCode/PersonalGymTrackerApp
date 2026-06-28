@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export function Landing() {
   return (
-    <div className="min-h-screen bg-iron-950 text-zinc-100">
+    <div className="min-h-screen bg-[#05070A] text-zinc-100">
       <section className="relative grid min-h-screen content-center overflow-hidden px-5 py-10">
         <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(182,255,77,0.2),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(255,91,74,0.18),transparent_30%)]" />
         <div className="relative mx-auto w-full max-w-6xl">
@@ -28,7 +28,7 @@ export function Landing() {
               ["Local first", "Workouts and measurements save to IndexedDB before sync."],
               ["Reports", "Export workout history, recovery, and measurements to PDF."]
             ].map(([title, copy]) => (
-              <div key={title} className="rounded-lg border border-white/10 bg-white/[0.04] p-5 backdrop-blur">
+              <div key={title} className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-5 shadow-[0_8px_30px_rgba(0,0,0,.35)] backdrop-blur">
                 <LineChart className="mb-6 text-volt-500" />
                 <h2 className="text-lg font-bold">{title}</h2>
                 <p className="mt-2 text-sm text-zinc-400">{copy}</p>

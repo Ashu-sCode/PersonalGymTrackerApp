@@ -133,7 +133,7 @@ function frequencyText(score?: MuscleScore) {
 
 function SelectedMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.35rem] border border-white/10 bg-[#29303b]/78 px-4 py-3 shadow-inner shadow-white/[0.025]">
+    <div className="rounded-[18px] border border-white/[0.06] bg-[#11161F]/90 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,.22)]">
       <p className="text-[11px] font-black uppercase tracking-[0.24em] text-zinc-500">{label}</p>
       <p className="mt-2 text-xl font-black leading-tight text-white sm:text-2xl">{value}</p>
     </div>
@@ -162,12 +162,12 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
       <div
         className={
           selectedMuscle
-            ? "fixed inset-x-3 bottom-3 z-50 max-h-[72dvh] overflow-y-auto rounded-[2rem] border border-white/10 bg-transparent p-0 shadow-2xl shadow-black/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:relative xl:inset-auto xl:max-h-none xl:overflow-visible xl:rounded-lg xl:bg-white/[0.035] xl:p-4 xl:shadow-none"
-            : "hidden rounded-lg border border-white/10 bg-white/[0.035] p-4 xl:block"
+            ? "fixed inset-x-3 bottom-3 z-50 max-h-[72dvh] overflow-y-auto rounded-[2rem] border border-white/[0.06] bg-transparent p-0 shadow-2xl shadow-black/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:relative xl:inset-auto xl:max-h-none xl:overflow-visible xl:rounded-[18px] xl:bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] xl:p-4 xl:shadow-[0_8px_30px_rgba(0,0,0,.35)]"
+            : "hidden rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-4 shadow-[0_8px_30px_rgba(0,0,0,.35)] xl:block"
         }
       >
         <div
-          className={`overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,rgba(42,48,60,0.96),rgba(28,32,39,0.96))] p-4 shadow-2xl shadow-black/35 backdrop-blur-xl ${
+          className={`overflow-hidden border border-white/[0.06] bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,#151922,#0F131A)] p-4 shadow-2xl shadow-black/35 backdrop-blur-xl ${
             selectedMuscle ? "mb-0 rounded-[2rem] xl:mb-4 xl:rounded-xl" : "mb-4 rounded-xl"
           }`}
         >
@@ -191,7 +191,7 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                   type="button"
                   aria-label="Clear selected muscle"
                   onClick={() => setSelectedMuscle(undefined)}
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.045] text-zinc-300 transition hover:bg-white/10 hover:text-white"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/[0.06] bg-[#11161F] text-zinc-300 transition hover:bg-white/[0.06] hover:text-white"
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -220,7 +220,7 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                 </div>
               </div>
 
-              <div className="mt-3 rounded-[1.35rem] border border-white/10 bg-[#29303b]/78 p-4 shadow-inner shadow-white/[0.025]">
+              <div className="mt-3 rounded-[18px] border border-white/[0.06] bg-[#11161F]/90 p-4 shadow-[0_8px_30px_rgba(0,0,0,.22)]">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-[11px] font-black uppercase tracking-[0.24em] text-zinc-500">Volume this week</p>
@@ -232,14 +232,14 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                     <p className="mt-2 text-xl font-black text-zinc-200">{formatScore(selectedScore?.recoveryPenalty)}</p>
                   </div>
                 </div>
-                <div className="mt-4 border-t border-white/10 pt-4">
+                <div className="mt-4 border-t border-white/[0.06] pt-4">
                   <p className="text-[11px] font-black uppercase tracking-[0.24em] text-zinc-500">Recovery note</p>
                   <p className="mt-2 text-sm leading-5 text-zinc-300">{readinessCopy(selectedScore)}</p>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="mt-4 rounded-md border border-white/10 bg-white/[0.035] px-3 py-5 text-center">
+            <div className="mt-4 rounded-[18px] border border-white/[0.06] bg-[#11161F] px-3 py-5 text-center">
               <CalendarClock className="mx-auto h-6 w-6 text-zinc-600" />
               <p className="mt-2 text-sm font-semibold text-zinc-300">Select a muscle to view recovery details</p>
               <p className="mt-1 text-xs leading-5 text-zinc-500">You will see readiness, weekly load, frequency, and recovery status here.</p>
@@ -275,7 +275,7 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                 title={muscleLabels[muscleId]}
                 onClick={() => setSelectedMuscle(muscleId)}
                 className={`flex min-h-11 items-center justify-between gap-3 rounded-md border px-3 py-2 text-left text-sm transition ${
-                  active ? "border-white/40 bg-white/14 text-white shadow-[0_0_18px_rgba(163,255,61,0.16)]" : "border-white/10 bg-white/[0.045] text-zinc-200 hover:bg-white/10"
+                  active ? "border-volt-500/35 bg-volt-500/10 text-white shadow-[0_0_18px_rgba(163,255,61,0.16)]" : "border-white/[0.06] bg-[#11161F] text-zinc-200 hover:bg-white/[0.06]"
                 }`}
               >
                 <span className="font-semibold">{muscleLabels[muscleId]}</span>

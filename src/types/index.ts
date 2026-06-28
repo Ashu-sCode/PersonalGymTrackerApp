@@ -105,6 +105,14 @@ export interface BodyMeasurement {
   synced?: boolean;
 }
 
+export interface UserSettings {
+  id: string;
+  userId: string;
+  unitSystem: "kg" | "lb";
+  onboardingCompleted: boolean;
+  updatedAt: string;
+}
+
 export interface Reminder {
   id: string;
   userId: string;
@@ -114,13 +122,18 @@ export interface Reminder {
   enabled: boolean;
 }
 
+export type SyncEntity = "workouts" | "workout_sets" | "body_measurements" | "reminders" | "exercises" | "exercise_muscle_map" | "workout_templates" | "user_settings";
+
 export interface SyncQueueItem {
   id: string;
-  entity: "workouts" | "workout_sets" | "body_measurements" | "reminders" | "exercises";
+  entity: SyncEntity;
   entityId: string;
   action: "upsert" | "delete";
   payload: unknown;
   createdAt: string;
+  attempts?: number;
+  lastError?: string;
+  updatedAt?: string;
 }
 
 export interface MuscleScore {

@@ -94,7 +94,7 @@ function BodyFigure({
   const viewBox = muscleViewBoxes[model][side];
 
   return (
-    <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/10 bg-[radial-gradient(circle_at_50%_10%,rgba(57,231,95,0.13),transparent_32%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.07),transparent_50%),linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.014))] p-3 shadow-inner shadow-white/[0.025]">
+    <div className="relative min-h-0 overflow-hidden rounded-[18px] border border-white/[0.06] bg-[radial-gradient(circle_at_50%_10%,rgba(57,231,95,0.13),transparent_32%),radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.07),transparent_50%),linear-gradient(180deg,#151922,#0F131A)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
       <div className="mb-2 text-center text-[10px] font-medium uppercase tracking-[0.34em] text-zinc-500">{side}</div>
       <svg viewBox={viewBox} className="h-[clamp(360px,62vw,560px)] w-full max-w-full drop-shadow-[0_18px_26px_rgba(0,0,0,0.24)]" role="img" aria-label={`${model} ${side} muscle map`}>
         <defs>
@@ -161,7 +161,7 @@ function BodyFigure({
       </svg>
 
       {showLabels ? (
-        <div className="pointer-events-none absolute bottom-3 left-3 right-3 rounded-md border border-white/10 bg-black/50 px-2 py-1 text-center text-xs text-zinc-300">
+        <div className="pointer-events-none absolute bottom-3 left-3 right-3 rounded-[14px] border border-white/[0.06] bg-black/50 px-2 py-1 text-center text-xs text-zinc-300">
           {hoveredMuscle ? muscleLabels[hoveredMuscle] : `${side} view`}
         </div>
       ) : null}
@@ -183,7 +183,7 @@ export function MuscleMap2D({ selectedMuscle, recoveryScores, onMuscleClick, sho
   );
 
   return (
-    <div className="rounded-lg border border-white/10 bg-iron-950/40 p-3">
+    <div className="rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-3 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
       <div className="-mx-3 flex touch-pan-x snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:grid lg:snap-none lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">
         <div className="min-w-full snap-center lg:min-w-0">
           <BodyFigure

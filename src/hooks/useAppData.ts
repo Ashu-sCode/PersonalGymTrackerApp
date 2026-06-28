@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { calculateMuscleScores } from "../algorithms/muscleScores";
-import { db, ensureLocalUser, seedDatabase } from "../db/db";
+import { db, ensureLocalUser, ensureUserSettings, seedDatabase } from "../db/db";
 import { syncPendingItems } from "../services/syncService";
-import type { BodyMeasurement, Exercise, ExerciseMuscleMap, Muscle, Reminder, UserProfile, Workout, WorkoutSet, WorkoutTemplate } from "../types";
+import type { BodyMeasurement, Exercise, ExerciseMuscleMap, Muscle, Reminder, SyncQueueItem, UserProfile, UserSettings, Workout, WorkoutSet, WorkoutTemplate } from "../types";
 
 export function useAppData() {
   const [loading, setLoading] = useState(true);
@@ -15,11 +15,14 @@ export function useAppData() {
   const [mappings, setMappings] = useState<ExerciseMuscleMap[]>([]);
   const [measurements, setMeasurements] = useState<BodyMeasurement[]>([]);
   const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [settings, setSettings] = useState<UserSettings | null>(null);
+  const [syncItems, setSyncItems] = useState<SyncQueueItem[]>([]);
   const [pendingSync, setPendingSync] = useState(0);
 
   const refresh = useCallback(async () => {
-    const [userRow, workoutRows, setRows, templateRows, exerciseRows, muscleRows, mappingRows, measurementRows, reminderRows, syncRows] = await Promise.all([
-      ensureLocalUser(),
+    const userRow = await ensureLocalUser();
+    const [settingsRow, workoutRows, setRows, templateRows, exerciseRows, muscleRows, mappingRows, measurementRows, reminderRows, syncRows] = await Promise.all([
+      ensureUserSettings(userRow.id),
       db.workouts.orderBy("date").reverse().toArray(),
       db.workoutSets.toArray(),
       db.workoutTemplates.orderBy("createdAt").reverse().toArray(),
@@ -32,6 +35,7 @@ export function useAppData() {
     ]);
 
     setUser(userRow);
+    setSettings(settingsRow);
     setWorkouts(workoutRows);
     setSets(setRows);
     setWorkoutTemplates(templateRows);
@@ -40,6 +44,7 @@ export function useAppData() {
     setMappings(mappingRows);
     setMeasurements(measurementRows);
     setReminders(reminderRows);
+    setSyncItems(syncRows);
     setPendingSync(syncRows.length);
   }, []);
 
@@ -68,6 +73,9 @@ export function useAppData() {
     mappings,
     measurements,
     reminders,
+    settings,
+    syncItems,
+    syncIssues: syncItems.filter((item) => item.lastError),
     scores,
     pendingSync,
     refresh

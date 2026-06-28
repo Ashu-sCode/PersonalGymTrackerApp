@@ -30,14 +30,14 @@ export function Login({ user }: { user: UserProfile | null }) {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-iron-950 px-4 text-zinc-100">
-      <form onSubmit={submit} className="w-full max-w-md rounded-lg border border-white/10 bg-white/[0.035] p-6">
+    <div className="grid min-h-screen place-items-center bg-[#05070A] px-4 text-zinc-100">
+      <form onSubmit={submit} className="w-full max-w-md rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-6 shadow-[0_8px_30px_rgba(0,0,0,.35)]">
         <Link to="/" className="text-sm text-volt-500">PGT</Link>
         <h1 className="mt-3 text-3xl font-black">{mode === "login" ? "Welcome back" : "Create account"}</h1>
         <p className="mt-2 text-sm text-zinc-400">Signed in locally as {user?.name ?? "Local Athlete"}.</p>
-        <div className="mt-6 grid grid-cols-2 rounded-lg bg-white/8 p-1">
-          <button type="button" onClick={() => setMode("login")} className={`rounded-md py-2 text-sm ${mode === "login" ? "bg-volt-500 text-iron-950" : "text-zinc-300"}`}>Login</button>
-          <button type="button" onClick={() => setMode("register")} className={`rounded-md py-2 text-sm ${mode === "register" ? "bg-volt-500 text-iron-950" : "text-zinc-300"}`}>Register</button>
+        <div className="mt-6 grid grid-cols-2 rounded-[14px] border border-white/[0.05] bg-[#11161F] p-1">
+          <button type="button" onClick={() => setMode("login")} className={`rounded-xl py-2 text-sm font-bold transition ${mode === "login" ? "bg-volt-500 text-iron-950" : "text-zinc-300 hover:bg-white/[0.05]"}`}>Login</button>
+          <button type="button" onClick={() => setMode("register")} className={`rounded-xl py-2 text-sm font-bold transition ${mode === "register" ? "bg-volt-500 text-iron-950" : "text-zinc-300 hover:bg-white/[0.05]"}`}>Register</button>
         </div>
         <div className="mt-5 space-y-3">
           {mode === "register" && <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />}
