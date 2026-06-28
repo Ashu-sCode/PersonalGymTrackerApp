@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CalendarClock, ScanSearch, X } from "lucide-react";
+import { ScanSearch, X } from "lucide-react";
 import { MuscleMap2D } from "./muscle-map/MuscleMap2D";
 import { recoveryGradients, recoveryLevel } from "./muscle-map/muscleColor";
 import { muscleLabels } from "./muscle-map/musclePaths";
@@ -144,24 +144,18 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
   const selectedRecovery = recoveryLevel(selectedScore);
 
   return (
-    <div className="grid items-start gap-3 sm:gap-4 xl:grid-cols-[minmax(520px,1fr)_360px]">
+    <div className={`grid items-start gap-3 sm:gap-4 ${selectedMuscle ? "2xl:grid-cols-[minmax(520px,1fr)_360px]" : ""}`}>
       <MuscleMap2D selectedMuscle={selectedMuscle} recoveryScores={recoveryScores} onMuscleClick={setSelectedMuscle} showLabels={false} model="male" />
 
-      <div
-        className={
-          selectedMuscle
-            ? "fixed inset-x-3 bottom-3 z-50 max-h-[68dvh] overflow-y-auto rounded-[2rem] border border-white/[0.06] bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,#151922,#0F131A)] p-3 shadow-2xl shadow-black/50 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-4 xl:relative xl:inset-auto xl:max-h-none xl:overflow-visible xl:rounded-[18px] xl:shadow-[0_8px_30px_rgba(0,0,0,.35)]"
-            : "hidden rounded-[18px] border border-white/[0.06] bg-[linear-gradient(180deg,#151922_0%,#0F131A_100%)] p-4 shadow-[0_8px_30px_rgba(0,0,0,.35)] xl:block"
-        }
-      >
-        <div className="overflow-hidden">
-          {selectedMuscle ? <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/35 md:hidden" /> : null}
+      {selectedMuscle ? (
+        <div className="fixed inset-x-3 bottom-3 z-50 max-h-[68dvh] overflow-y-auto rounded-[2rem] border border-white/[0.06] bg-[radial-gradient(circle_at_28%_0%,rgba(57,231,95,0.13),transparent_34%),radial-gradient(circle_at_70%_10%,rgba(255,159,67,0.1),transparent_32%),linear-gradient(180deg,#151922,#0F131A)] p-3 shadow-2xl shadow-black/50 backdrop-blur-xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:p-4 2xl:relative 2xl:inset-auto 2xl:max-h-none 2xl:overflow-visible 2xl:rounded-[18px] 2xl:shadow-[0_8px_30px_rgba(0,0,0,.35)]">
+          <div className="overflow-hidden">
+          <div className="mx-auto mb-3 h-1.5 w-16 rounded-full bg-white/35 2xl:hidden" />
           <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-zinc-500">
             <ScanSearch className="h-4 w-4" />
             Selected muscle
           </p>
-          {selectedMuscle ? (
-            <div className="mt-4">
+          <div className="mt-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="text-4xl font-black leading-none tracking-tight text-white md:text-3xl">{muscleLabels[selectedMuscle]}</h2>
@@ -222,15 +216,9 @@ export function MuscleHeatmap({ scores }: { scores: MuscleScore[] }) {
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="mt-4 rounded-[16px] bg-white/[0.035] px-3 py-5 text-center">
-              <CalendarClock className="mx-auto h-6 w-6 text-zinc-600" />
-              <p className="mt-2 text-sm font-semibold text-zinc-300">Select a muscle to view recovery details</p>
-              <p className="mt-1 text-xs leading-5 text-zinc-500">You will see readiness, weekly load, frequency, and recovery status here.</p>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 }
