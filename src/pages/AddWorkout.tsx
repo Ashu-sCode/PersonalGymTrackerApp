@@ -292,14 +292,16 @@ export function AddWorkout({ data }: { data: AppData }) {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    className="rounded-[14px] border border-white/[0.05] bg-[#11161F] p-2 text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex items-center gap-1.5 rounded-[14px] border border-white/[0.05] bg-[#11161F] px-2.5 py-2 text-sm font-bold text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
                     onClick={() => splitIntoWorkingSets(index)}
                     disabled={set.sets <= 1}
                     aria-label="Split into individual working sets"
+                    title="Split into individual working sets"
                   >
                     <ListPlus size={16} />
+                    <span className="hidden sm:inline">Split</span>
                   </button>
-                  <button className="rounded-[14px] border border-white/[0.05] bg-[#11161F] p-2 text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white" onClick={() => duplicateSet(index)} aria-label="Duplicate exercise">
+                  <button className="rounded-[14px] border border-white/[0.05] bg-[#11161F] p-2 text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white" onClick={() => duplicateSet(index)} aria-label="Duplicate exercise" title="Duplicate exercise row">
                     <Copy size={16} />
                   </button>
                   <button
