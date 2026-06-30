@@ -382,16 +382,55 @@ function WorkoutSetFields({ data, set, unitLabel, update }: { data: AppData; set
       </label>
       <NumberField label="Sets" value={set.sets} onChange={(value) => update({ sets: value })} min={1} />
       <NumberField label="Reps" value={set.reps} onChange={(value) => update({ reps: value })} min={1} />
-      <NumberField label={`Weight (${unitLabel})`} value={set.weight} onChange={(value) => update({ weight: value })} min={0} />
+      <NumberField label={`Weight (${unitLabel})`} value={set.weight} onChange={(value) => update({ weight: value })} min={0} allowDecimal />
     </div>
   );
 }
 
-function NumberField({ label, value, min, onChange }: { label: string; value: number; min: number; onChange: (value: number) => void }) {
+function sanitizeNumberInput(value: string, allowDecimal: boolean) {
+  const cleaned = value.replace(allowDecimal ? /[^\d.]/g : /\D/g, "");
+  if (!allowDecimal) return cleaned.replace(/^0+(?=\d)/, "");
+  const [head, ...tail] = cleaned.split(".");
+  return `${head.replace(/^0+(?=\d)/, "")}${tail.length ? `.${tail.join("")}` : ""}`;
+}
+
+function NumberField({ label, value, min, allowDecimal = false, onChange }: { label: string; value: number; min: number; allowDecimal?: boolean; onChange: (value: number) => void }) {
+  const [draft, setDraft] = useState(String(value));
+
+  useEffect(() => {
+    setDraft(String(value));
+  }, [value]);
+
+  function commit(nextValue: string) {
+    if (nextValue === "" || nextValue === ".") return;
+    const parsed = Number(nextValue);
+    if (!Number.isFinite(parsed)) return;
+    const normalized = Math.max(min, allowDecimal ? parsed : Math.floor(parsed));
+    onChange(normalized);
+  }
+
+  function normalize() {
+    const parsed = Number(draft);
+    const normalized = Number.isFinite(parsed) ? Math.max(min, allowDecimal ? parsed : Math.floor(parsed)) : min;
+    setDraft(String(normalized));
+    onChange(normalized);
+  }
+
   return (
     <label>
       <span className="mb-1 block text-sm font-bold text-[#A1A8B3]">{label}</span>
-      <input className="input" type="number" min={min} value={value} onChange={(event) => onChange(Number(event.target.value))} />
+      <input
+        className="input"
+        inputMode={allowDecimal ? "decimal" : "numeric"}
+        min={min}
+        value={draft}
+        onBlur={normalize}
+        onChange={(event) => {
+          const nextValue = sanitizeNumberInput(event.target.value, allowDecimal);
+          setDraft(nextValue);
+          commit(nextValue);
+        }}
+      />
     </label>
   );
 }
