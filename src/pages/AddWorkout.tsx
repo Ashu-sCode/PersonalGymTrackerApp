@@ -1,4 +1,4 @@
-import { AlertTriangle, BarChart3, CalendarDays, ClipboardList, Copy, Dumbbell, Layers3, Plus, RotateCcw, Save, Trash2, X, type LucideIcon } from "lucide-react";
+import { AlertTriangle, BarChart3, CalendarDays, ClipboardList, Copy, Dumbbell, Layers3, ListPlus, Plus, RotateCcw, Save, Trash2, X, type LucideIcon } from "lucide-react";
 import { type Dispatch, type SetStateAction, useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { calculateVolume } from "../algorithms/muscleScores";
@@ -69,6 +69,18 @@ export function AddWorkout({ data }: { data: AppData }) {
       next.splice(index + 1, 0, { ...current[index] });
       return next;
     });
+  }
+
+  function splitIntoWorkingSets(index: number) {
+    setDraftSets((current) => {
+      const target = current[index];
+      const setCount = Math.max(1, Math.floor(Number(target.sets) || 1));
+      const splitRows = Array.from({ length: setCount }, () => ({ ...target, sets: 1 }));
+      const next = [...current];
+      next.splice(index, 1, ...splitRows);
+      return next;
+    });
+    setNotice("Split set group into individual working sets. Adjust reps or weight per row.");
   }
 
   function updateTemplateSet(index: number, patch: Partial<WorkoutDraftSet>) {
@@ -279,6 +291,14 @@ export function AddWorkout({ data }: { data: AppData }) {
                   </div>
                 </div>
                 <div className="flex gap-2">
+                  <button
+                    className="rounded-[14px] border border-white/[0.05] bg-[#11161F] p-2 text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                    onClick={() => splitIntoWorkingSets(index)}
+                    disabled={set.sets <= 1}
+                    aria-label="Split into individual working sets"
+                  >
+                    <ListPlus size={16} />
+                  </button>
                   <button className="rounded-[14px] border border-white/[0.05] bg-[#11161F] p-2 text-[#A1A8B3] transition hover:bg-white/[0.06] hover:text-white" onClick={() => duplicateSet(index)} aria-label="Duplicate exercise">
                     <Copy size={16} />
                   </button>
